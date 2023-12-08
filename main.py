@@ -60,7 +60,11 @@ async def create_game(
     created: bool,
     using_db: "Optional[BaseDBAsyncClient]",
     update_fields: List[str]
-) ->None:
+) ->None:    
+    if created:
+        game_obj = await Game.create(
+            game_name = instance.username, owner = instance)
+        await game_pydantic.from_tortoise_orm(game_obj)
 
 @app.post("/registration")
 async def user_registration(user: user_pydanticIn):
